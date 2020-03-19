@@ -32,14 +32,18 @@ function disconnect()
 
 function tryLogin($email,$password)
 {
-    if(passwordIsGood($email,$password))
+    $user = getUserByEmail($email);
+    if(password_verify($password,$user['password']))
     {
-        $_SESSION['flashmessage'] = "Bienvenue";
+        $_SESSION['flashmessage'] = "Bienvenue, ".$user['firstname'];
+        unset($user['password']);
+        $_SESSION['user'] = $user;
         require_once 'view/home.php';
     }
     else
     {
         $_SESSION['flashmessage'] = "Pas d'accord";
+        unset($_SESSION['user']);
         require_once 'view/connect.php';
     }
 }

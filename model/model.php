@@ -74,7 +74,7 @@ function putUsers($tab)
     file_put_contents('model/dataStorage/users.json', json_encode($tab));
 }
 
-function passwordIsGood($email,$password)
+function getUserByEmail($email)
 {
     require ".const.php";
     $dbh = getPDO();
@@ -84,7 +84,7 @@ function passwordIsGood($email,$password)
         $statement->execute(['email' => $email]);//execute query
         $queryResult = $statement->fetch(PDO::FETCH_ASSOC);//prepare result for client
         $dbh = null;
-        return password_verify($password,$queryResult['password']);
+        return $queryResult;
     } catch (PDOException $e) {
         print "Error!: " . $e->getMessage() . "<br/>";
         return null;

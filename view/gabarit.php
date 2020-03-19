@@ -58,7 +58,9 @@
                 </div>
                 <div id="divMenuRight" class="divMenuRight pull-right">
                     <table style="margin-left: 45px">
-                        <tr><td height="25px"></td></tr>
+                        <tr>
+                            <td height="25px"></td>
+                        </tr>
                         <tr>
                             <td width="45px"></td>
                             <td class="nav-btn"><a href="index.php?action=home">Home</a></td>
@@ -66,15 +68,11 @@
                             <td class="nav-btn"><a href="index.php?action=displaySnows">Snows</a></td>
                             <td width="20px"></td>
 
-                            <?php
-                                if ($_SESSION['username']!=""){
-                                    echo "<td class=\"nav-btn\"><a href=\"index.php?action=modifyflie\">Edit File</a></td>";
-                                    echo "<td width=\"20px\"></td>";
-                                    echo "<td id=\"disconnect\" ><a style=\"color: #4DB9EE\" href=\"index.php?action=disconnect\">Déconnexion</a></td>";
-                                }else{
-                                   echo "<td id=\"connect\"><a style=\"color: #4DB9EE\" href=\"index.php?action=connect\">Connexion</a></td>";
-                                }
-                            ?>
+                            <?php if (isset($_SESSION['user'])) { ?>
+                                <td id="disconnect"><a style="color: #4DB9EE" href="index.php?action=disconnect">Déconnexion de <?= $_SESSION['user']['firstname'] ?></a></td>
+                            <?php } else { ?>
+                                <td id="connect"><a style="color: #4DB9EE" href="index.php?action=connect">Connexion</a></td>
+                            <?php } ?>
 
 
                         </tr>
