@@ -87,6 +87,7 @@
             <div class="divPanel notop page-content">
                 <div class="row-fluid">
                     <div class="span12" id="divMain">
+                        <br style="clear:both"/>
                         <?= $content; ?>
                     </div>
                 </div>

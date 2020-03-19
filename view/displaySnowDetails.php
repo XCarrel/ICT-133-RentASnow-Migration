@@ -10,7 +10,6 @@ ob_start();
 $title = "RentASnow - Snows";
 ?>
 
-<br style="clear:both"/>
 <div class="case_snow">
     <img src="view/images/Snows/<?= $snow['photo'] ?>" class="listimages" alt="">
     <h2>Marque : <?= $snow['brand'] ?></h2>

@@ -24,7 +24,9 @@ switch ($action)
         disconnect();
         break;
     case 'tryLogin':
-        tryLogin();
+        $email=$_POST['email'];
+        $password=$_POST['password'];
+        tryLogin($email,$password);
         break;
     case 'displaySnowDetails';
         $snowid = $_GET['id'];

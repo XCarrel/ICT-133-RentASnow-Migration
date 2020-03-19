@@ -9,7 +9,6 @@
 ob_start();
 $title = "RentASnow - Snows";
 ?>
-<br style="clear:both"/>
 <div class="row-fluid">
     <h1>Nos Snowboards :</h1>
     <?php foreach ($snows as $snow) {?>

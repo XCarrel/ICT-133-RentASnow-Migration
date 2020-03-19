@@ -11,18 +11,11 @@ $title = "RentASnow - Connect";
 ?>
 
 <div style="margin-top: 100px">
-    <?php
-    if ($_SESSION['fail']==true){
-        echo "<h4 class=\"text-danger\" >Votre identifiant ou votre mot de passe est incorrect !</h4>";
-        echo "<h1>nom utili</h1>".$_SESSION['username']."  fin";
-        echo "<h1>mdp</h1>".$_SESSION['password']."  fin";
-    }
-    ?>
-    <form style="margin-top: 50px" method="post" action="index.php?action=tryLogin">
+    <form method="post" action="index.php?action=tryLogin">
     <table class="table">
         <tr>
-            <td><label for="username">username : </label></td>
-            <td><input id="username" name="username" type="text" placeholder="Entrer votre Identifiant ici..."></td>
+            <td><label for="username">email : </label></td>
+            <td><input id="username" name="email" type="email" placeholder="Entrer votre email ici..."></td>
         </tr>
         <tr>
             <td><label for="password">Mot de passe : </label></td>
