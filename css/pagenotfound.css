@@ -1,0 +1,17 @@
+a{
+    text-decoration: none;
+}
+.img{
+    z-index: -1;
+}
+.home{
+    font-family: Impact;
+    font-size: 4em;
+    color: white;
+    transition: 0.25s;
+    text-decoration: none;
+    margin-top: -50%;
+    text-align: center;
+}
+.home:hover{
+    color:#EF2F24 ;
