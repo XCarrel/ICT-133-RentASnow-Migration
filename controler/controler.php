@@ -34,10 +34,12 @@ function tryLogin($email,$password)
 {
     if(passwordIsGood($email,$password))
     {
+        $_SESSION['flashmessage'] = "Bienvenue";
         require_once 'view/home.php';
     }
     else
     {
+        $_SESSION['flashmessage'] = "Pas d'accord";
         require_once 'view/connect.php';
     }
 }
