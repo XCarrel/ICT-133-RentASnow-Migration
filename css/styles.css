@@ -1,3 +1,17 @@
+.snows {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 2px;
+    margin: 2px;
+}
+
+.snow {
+    width:20%;
+    padding: 2px;
+    margin: 2px;
+}
+
 .listimages {
-    width: 150px;
+    width: 50px;
 }
