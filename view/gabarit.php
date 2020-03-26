@@ -65,7 +65,7 @@
                             <td width="45px"></td>
                             <td class="nav-btn"><a href="index.php?action=home">Home</a></td>
                             <td width="15px"></td>
-                            <td class="nav-btn"><a href="index.php?action=displaySnows">Snows</a></td>
+                            <td class="nav-btn"><a href="index.php?action=displaySnowTypes">Snows</a></td>
                             <td width="20px"></td>
 
                             <?php if (isset($_SESSION['user'])) { ?>

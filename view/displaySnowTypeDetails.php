@@ -8,6 +8,7 @@
 
 ob_start();
 $title = "RentASnow - Snows";
+require_once "helpers.php";
 ?>
 
 <div class="text-center">
@@ -29,8 +30,8 @@ $title = "RentASnow - Snows";
                 <tr>
                     <td><?= $snow['code'] ?></td>
                     <td><?= $snow['length'] ?></td>
-                    <td><?= $snow['state'] ?></td>
-                    <td><?= $snow['available'] ?></td>
+                    <td><?= getTextState($snow['state']) ?></td>
+                    <td><?= ($snow['available'] == 1) ? 'Oui' : 'Non' ?></td>
                 </tr>
             <?php } ?>
         </table>

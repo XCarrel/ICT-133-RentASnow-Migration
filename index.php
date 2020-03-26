@@ -14,7 +14,7 @@ switch ($action)
     case 'home';
         home();
         break;
-    case 'displaySnows':
+    case 'displaySnowTypes':
         displaySnows();
         break;
     case 'connect':
@@ -28,9 +28,9 @@ switch ($action)
         $password=$_POST['password'];
         tryLogin($email,$password);
         break;
-    case 'displaySnowDetails';
+    case 'displaySnowTypeDetails';
         $snowid = $_GET['id'];
-        displaySnowDetails($snowid);
+        displaySnowTypeDetails($snowid);
         break;
     case 'modifyflie';
         modifyfile();

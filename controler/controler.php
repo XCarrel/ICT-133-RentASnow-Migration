@@ -48,11 +48,11 @@ function tryLogin($email,$password)
     }
 }
 
-function displaySnowDetails($id){
+function displaySnowTypeDetails($id){
     $snowtype = getSnow($id);
     $snows = getSnowsOfType($id);
 
-    require_once 'view/displaySnowDetails.php';
+    require_once 'view/displaySnowTypeDetails.php';
 }
 function modifyfile()
 {

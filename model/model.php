@@ -56,7 +56,7 @@ function getSnowsOfType($type)
     require ".const.php";
     $dbh = getPDO();
     try {
-        $query = 'SELECT * FROM snows WHERE snowtype_id = :tid ORDER BY length';
+        $query = 'SELECT * FROM snows WHERE snowtype_id = :tid AND state IN (1,2,3) ORDER BY length';
         $statement = $dbh->prepare($query);//prepare query
         $statement->execute(["tid" => $type]);//execute query
         $queryResult = $statement->fetchAll(PDO::FETCH_ASSOC);//prepare result for client
