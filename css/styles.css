@@ -19,3 +19,7 @@
 .imagedetail {
     width: 150px;
 }
+
+.clickable {
+    cursor: pointer;
+}
