@@ -69,12 +69,29 @@ function getSnowsOfType($type)
     }
 }
 
-function getSnow($id)
+function getSnowType($id)
 {
     require ".const.php";
     $dbh = getPDO();
     try {
         $query = 'SELECT * FROM snowtypes WHERE id=:id';
+        $statement = $dbh->prepare($query);//prepare query
+        $statement->execute(['id' => $id]);//execute query
+        $queryResult = $statement->fetch(PDO::FETCH_ASSOC);//prepare result for client
+        $dbh = null;
+        if ($debug) var_dump($queryResult);
+        return $queryResult;
+    } catch (PDOException $e) {
+        print "Error!: " . $e->getMessage() . "<br/>";
+        return null;
+    }
+}
+function getSnow($id)
+{
+    require ".const.php";
+    $dbh = getPDO();
+    try {
+        $query = 'SELECT * FROM snows INNER JOIN snowtypes ON snowtype_id=snowtypes.id WHERE snows.id=:id';
         $statement = $dbh->prepare($query);//prepare query
         $statement->execute(['id' => $id]);//execute query
         $queryResult = $statement->fetch(PDO::FETCH_ASSOC);//prepare result for client

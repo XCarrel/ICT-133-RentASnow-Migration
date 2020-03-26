@@ -27,7 +27,7 @@ require_once "helpers.php";
                 <th>Disponible</th>
             </tr>
             <?php foreach ($snows as $snow) { ?>
-                <tr class="clickable" data-href="?displaySnowDetails&id=<?= $snow['id'] ?>">
+                <tr class="clickable" data-href="?action=displaySnowDetails&id=<?= $snow['id'] ?>">
                     <td><?= $snow['code'] ?></td>
                     <td><?= $snow['length'] ?></td>
                     <td><?= getTextState($snow['state']) ?></td>

@@ -49,10 +49,14 @@ function tryLogin($email,$password)
 }
 
 function displaySnowTypeDetails($id){
-    $snowtype = getSnow($id);
+    $snowtype = getSnowType($id);
     $snows = getSnowsOfType($id);
-
     require_once 'view/displaySnowTypeDetails.php';
+}
+
+function displaySnowDetails($id){
+    $snow = getSnow($id);
+    require_once 'view/displaySnowDetails.php';
 }
 function modifyfile()
 {

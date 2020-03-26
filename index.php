@@ -29,8 +29,12 @@ switch ($action)
         tryLogin($email,$password);
         break;
     case 'displaySnowTypeDetails';
+        $snowtypeid = $_GET['id'];
+        displaySnowTypeDetails($snowtypeid);
+        break;
+    case 'displaySnowDetails';
         $snowid = $_GET['id'];
-        displaySnowTypeDetails($snowid);
+        displaySnowDetails($snowid);
         break;
     case 'modifyflie';
         modifyfile();
