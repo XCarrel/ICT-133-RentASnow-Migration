@@ -49,7 +49,9 @@ function tryLogin($email,$password)
 }
 
 function displaySnowDetails($id){
-    $snow = getSnow($id);
+    $snowtype = getSnow($id);
+    $snows = getSnowsOfType($id);
+
     require_once 'view/displaySnowDetails.php';
 }
 function modifyfile()

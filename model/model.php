@@ -48,6 +48,27 @@ function getSnows()
     }
 }
 
+/**
+ * Returns all snows of a given type
+ */
+function getSnowsOfType($type)
+{
+    require ".const.php";
+    $dbh = getPDO();
+    try {
+        $query = 'SELECT * FROM snows WHERE snowtype_id = :tid ORDER BY length';
+        $statement = $dbh->prepare($query);//prepare query
+        $statement->execute(["tid" => $type]);//execute query
+        $queryResult = $statement->fetchAll(PDO::FETCH_ASSOC);//prepare result for client
+        $dbh = null;
+        if ($debug) var_dump($queryResult);
+        return $queryResult;
+    } catch (PDOException $e) {
+        print "Error!: " . $e->getMessage() . "<br/>";
+        return null;
+    }
+}
+
 function getSnow($id)
 {
     require ".const.php";

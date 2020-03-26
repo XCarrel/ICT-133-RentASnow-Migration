@@ -10,11 +10,33 @@ ob_start();
 $title = "RentASnow - Snows";
 ?>
 
-<div class="case_snow">
-    <img src="view/images/Snows/<?= $snow['photo'] ?>" class="listimages" alt="">
-    <h2>Marque : <?= $snow['brand'] ?></h2>
-    <h2>Model : <?= $snow['model'] ?></h2>
+<div class="text-center">
+    <img src="view/images/Snows/<?= $snowtype['photo'] ?>" class="imagedetail" alt="">
+    <h2><?= $snowtype['brand'] ?> <?= $snowtype['model'] ?></h2>
     <br>
+</div>
+<div>
+    <?php if (count($snows) > 0) { ?>
+        <h3>Nous avons <?= count($snows) ?> snowboards de ce type</h3>
+        <table class="table">
+            <tr>
+                <th>Code</th>
+                <th>Taille</th>
+                <th>Etat</th>
+                <th>Disponible</th>
+            </tr>
+            <?php foreach ($snows as $snow) { ?>
+                <tr>
+                    <td><?= $snow['code'] ?></td>
+                    <td><?= $snow['length'] ?></td>
+                    <td><?= $snow['state'] ?></td>
+                    <td><?= $snow['available'] ?></td>
+                </tr>
+            <?php } ?>
+        </table>
+    <?php } else { ?>
+        <h2>Nous n'avons malheureusement aucun snowboard de ce type</h2>
+    <?php } ?>
 </div>
 
 <?php
