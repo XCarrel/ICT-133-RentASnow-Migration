@@ -42,6 +42,7 @@ switch ($action)
         break;
     case 'saveSnowDetails':
         // TODO traiter le POST
+        var_dump($_POST);
         $_SESSION['flashmessage']='OK';
         $snowid = $_POST['snowid'];
         displaySnowDetails($snowid);

@@ -19,19 +19,26 @@ require_once "helpers.php";
         <table class="table">
             <tr>
                 <th>Code</th>
-                <td><?= $snow['code'] ?></td>
+                <td><input type="text" name="code" value="<?= $snow['code'] ?>"></td>
             </tr>
             <tr>
                 <th>Taille</th>
-                <td><?= $snow['length'] ?></td>
+                <td><input type="text" name="length" value="<?= $snow['length'] ?>"></td>
             </tr>
             <tr>
                 <th>Etat</th>
-                <td><?= getTextState($snow['state']) ?></td>
+                <td>
+                    <select name="state">
+                        <option value="1" <?= ($snow['state'] == 1) ? "selected" : "" ?>>Neuf</option>
+                        <option value="2" <?= ($snow['state'] == 2) ? "selected" : "" ?>>Ok</option>
+                        <option value="3" <?= ($snow['state'] == 3) ? "selected" : "" ?>>Vieux</option>
+                        <option value="4" <?= ($snow['state'] == 4) ? "selected" : "" ?>>Mort</option>
+                    </select>
+                </td>
             </tr>
             <tr>
                 <th>Disponible</th>
-                <td><?= ($snow['available'] == 1) ? 'Oui' : 'Non' ?></td>
+                <td><input type="checkbox" name="available" <?= ($snow['available'] == 1) ? 'checked' : '' ?>></td>
             </tr>
         </table>
         <input type="hidden" name="snowid" value="<?= $snowid ?>">
