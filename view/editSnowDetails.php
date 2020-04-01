@@ -32,7 +32,7 @@ require_once "helpers.php";
                         <?php
                         for ($i = 1; $i <= 4; $i++)
                         {
-                            $selectedAttribute = ($snow['state'] == $i) ? "selected" : "";
+                            $selectedAttribute = ($snow['state'] == $i) ? "selected" : ""; // est-ce que l'option qu'on est en train de créer est celle qui correspond à l'état de ce snow ?
                             $text = getTextState($i);
                             echo "<option value='$i' $selectedAttribute>$text</option>";
                         }
