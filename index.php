@@ -45,6 +45,14 @@ switch ($action)
         $snowid = $_POST['snowid'];
         displaySnowDetails($snowid);
         break;
+    case 'putInCart':
+        $snowid = $_GET['snowid'];
+        $snow=getSnow($snowid); // Get the snow's details
+        withdraw($snowid); // Mark it as unavailable
+        $_SESSION['cart'][] = $snow; // put it in the cart
+        $_SESSION['flashmessage'] = 'Snow mis dans le panier';
+        displaySnows($snowid); // and go back to the list
+        break;
     case 'modifyflie':
         modifyfile();
         break;
