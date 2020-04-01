@@ -91,7 +91,7 @@ function getSnow($id)
     require ".const.php";
     $dbh = getPDO();
     try {
-        $query = 'SELECT * FROM snows INNER JOIN snowtypes ON snowtype_id=snowtypes.id WHERE snows.id=:id';
+        $query = 'SELECT *, snows.id as snowid FROM snows INNER JOIN snowtypes ON snowtype_id=snowtypes.id WHERE snows.id=:id';
         $statement = $dbh->prepare($query);//prepare query
         $statement->execute(['id' => $id]);//execute query
         $queryResult = $statement->fetch(PDO::FETCH_ASSOC);//prepare result for client
@@ -167,6 +167,42 @@ function returnSnow($snowid)
         $statement->execute(['snowid' => $snowid]);//execute query
         $dbh = null;
         return true;
+    } catch (PDOException $e) {
+        print "Error!: " . $e->getMessage() . "<br/>";
+        $_SESSION['flashmessage'] = "Erreur lors de l'enregistrement";
+        return null;
+    }
+}
+
+/**
+ * @return mixed
+ */
+function createRent($userid)
+{
+    require ".const.php";
+    $dbh = getPDO();
+    try {
+        $query = "INSERT INTO rents (status, start_on, user_id) VALUES (:status, :date, :userid);";
+        $statement = $dbh->prepare($query);//prepare query
+        $statement->execute(["status" => 'open', "date" => '2020-02-02', "userid" => $userid]);//execute query
+        return $dbh->lastInsertId() ;
+        // TODO bugfix: this creates two records!!!!
+    } catch (PDOException $e) {
+        print "Error!: " . $e->getMessage() . "<br/>";
+        $_SESSION['flashmessage'] = "Erreur lors de l'enregistrement";
+        return null;
+    }
+}
+
+function addSnowToRent($snow,$rent)
+{
+    require ".const.php";
+    $dbh = getPDO();
+    try {
+        $query = "INSERT INTO rentsdetails (snow_id, rent_id, nbDays, status) VALUES (:snow_id, :rent_id, :nbDays, :status);";
+        $statement = $dbh->prepare($query);//prepare query
+        $statement->execute(['snow_id' => $snow['snowid'], 'rent_id' => $rent, 'nbDays' => 30, 'status' => 'open']);//execute query
+        return $dbh->lastInsertId() ;
     } catch (PDOException $e) {
         print "Error!: " . $e->getMessage() . "<br/>";
         $_SESSION['flashmessage'] = "Erreur lors de l'enregistrement";

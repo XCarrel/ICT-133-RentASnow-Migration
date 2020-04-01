@@ -69,6 +69,22 @@ function emptyCart()
     displaySnows();
 }
 
+/**
+ * Create rents with the content of the cart
+ * @param $cartContent
+ */
+function rentSnows($cartContent)
+{
+    $rentid = createRent($_SESSION['user']['id']);
+    foreach ($cartContent as $snow)
+    {
+        addSnowToRent($snow,$rentid);
+    }
+    unset($_SESSION['cart']);
+    $_SESSION['flashmessage'] = "Location enregistrée";
+    displaySnows();
+}
+
 function editSnowDetails($snowid){
     $snow = getSnow($snowid);
     require_once 'view/editSnowDetails.php';
