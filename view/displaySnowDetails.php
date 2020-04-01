@@ -33,6 +33,7 @@ require_once "helpers.php";
             <td><?= ($snow['available'] == 1) ? 'Oui' : 'Non' ?></td>
         </tr>
     </table>
+    <a href="?action=editSnowDetails&snowid=<?= $snowid ?>" class="btn btn-primary">Modifier</a>
 </div>
 
 <?php

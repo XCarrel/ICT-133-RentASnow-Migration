@@ -11,7 +11,7 @@ $action = $_GET['action'];
 
 switch ($action)
 {
-    case 'home';
+    case 'home':
         home();
         break;
     case 'displaySnowTypes':
@@ -28,21 +28,31 @@ switch ($action)
         $password=$_POST['password'];
         tryLogin($email,$password);
         break;
-    case 'displaySnowTypeDetails';
+    case 'displaySnowTypeDetails':
         $snowtypeid = $_GET['id'];
         displaySnowTypeDetails($snowtypeid);
         break;
-    case 'displaySnowDetails';
+    case 'displaySnowDetails':
         $snowid = $_GET['id'];
         displaySnowDetails($snowid);
         break;
-    case 'modifyflie';
+    case 'editSnowDetails':
+        $snowid = $_GET['snowid'];
+        editSnowDetails($snowid);
+        break;
+    case 'saveSnowDetails':
+        // TODO traiter le POST
+        $_SESSION['flashmessage']='OK';
+        $snowid = $_POST['snowid'];
+        displaySnowDetails($snowid);
+        break;
+    case 'modifyflie':
         modifyfile();
         break;
-    case 'changeUser';
+    case 'changeUser':
         changeUser();
         break;
-    case 'delete';
+    case 'delete':
         delete();
         break;
     case '' :

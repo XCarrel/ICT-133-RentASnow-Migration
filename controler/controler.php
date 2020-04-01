@@ -54,10 +54,16 @@ function displaySnowTypeDetails($id){
     require_once 'view/displaySnowTypeDetails.php';
 }
 
-function displaySnowDetails($id){
-    $snow = getSnow($id);
+function displaySnowDetails($snowid){
+    $snow = getSnow($snowid);
     require_once 'view/displaySnowDetails.php';
 }
+
+function editSnowDetails($snowid){
+    $snow = getSnow($snowid);
+    require_once 'view/editSnowDetails.php';
+}
+
 function modifyfile()
 {
     $tab=getUsers();
