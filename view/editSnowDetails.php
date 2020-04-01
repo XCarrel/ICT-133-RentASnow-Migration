@@ -29,10 +29,14 @@ require_once "helpers.php";
                 <th>Etat</th>
                 <td>
                     <select name="state">
-                        <option value="1" <?= ($snow['state'] == 1) ? "selected" : "" ?>>Neuf</option>
-                        <option value="2" <?= ($snow['state'] == 2) ? "selected" : "" ?>>Ok</option>
-                        <option value="3" <?= ($snow['state'] == 3) ? "selected" : "" ?>>Vieux</option>
-                        <option value="4" <?= ($snow['state'] == 4) ? "selected" : "" ?>>Mort</option>
+                        <?php
+                        for ($i = 1; $i <= 4; $i++)
+                        {
+                            $selectedAttribute = ($snow['state'] == $i) ? "selected" : "";
+                            $text = getTextState($i);
+                            echo "<option value='$i' $selectedAttribute>$text</option>";
+                        }
+                        ?>
                     </select>
                 </td>
             </tr>

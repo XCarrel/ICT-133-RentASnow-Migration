@@ -103,6 +103,33 @@ function getSnow($id)
         return null;
     }
 }
+
+function updateSnow($snowdata)
+{
+    if (isset($snowdata['available']))
+    {
+        $snowdata['available'] = 1; // replace the value 'on' from the html form by a 1
+    }
+    else
+    {
+        $snowdata['available'] = 0; // put a 0 if the checkbox was not checked
+    }
+    require ".const.php";
+    $dbh = getPDO();
+    try {
+        $query = 'UPDATE snows SET code = :code, length = :length, state = :state, available = :available WHERE id = :snowid';
+        $statement = $dbh->prepare($query);//prepare query
+        $statement->execute($snowdata);//execute query
+        $_SESSION['flashmessage'] = 'Modifications enregistrées';
+        $dbh = null;
+        return true;
+    } catch (PDOException $e) {
+        print "Error!: " . $e->getMessage() . "<br/>";
+        $_SESSION['flashmessage'] = "Erreur lors de l'enregistrement";
+        return null;
+    }
+}
+
 function getUsers()
 {
     return json_decode(file_get_contents("model/dataStorage/users.json"),true);

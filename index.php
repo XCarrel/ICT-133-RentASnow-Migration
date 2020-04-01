@@ -24,9 +24,9 @@ switch ($action)
         disconnect();
         break;
     case 'tryLogin':
-        $email=$_POST['email'];
-        $password=$_POST['password'];
-        tryLogin($email,$password);
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+        tryLogin($email, $password);
         break;
     case 'displaySnowTypeDetails':
         $snowtypeid = $_GET['id'];
@@ -41,9 +41,7 @@ switch ($action)
         editSnowDetails($snowid);
         break;
     case 'saveSnowDetails':
-        // TODO traiter le POST
-        var_dump($_POST);
-        $_SESSION['flashmessage']='OK';
+        updateSnow($_POST);
         $snowid = $_POST['snowid'];
         displaySnowDetails($snowid);
         break;
