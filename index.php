@@ -56,6 +56,11 @@ switch ($action)
     case 'viewCart':
         $cartContent = $_SESSION['cart'];
         require_once "view/cart.php";
+    case 'emptyCart':
+        emptyCart();
+        $_SESSION['flashmessage'] = 'Snow mis dans le panier';
+        displaySnows($snowid); // and go back to the list
+        break;
     case 'modifyflie':
         modifyfile();
         break;

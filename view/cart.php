@@ -24,6 +24,7 @@ $title = "RentASnow - Snows";
             </tr>
         <?php } ?>
     </table>
+    <a href="?action=emptyCart" class="btn btn-danger">Abandonner</a>
 </div>
 </div>
 

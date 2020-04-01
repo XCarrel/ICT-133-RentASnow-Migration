@@ -59,6 +59,16 @@ function displaySnowDetails($snowid){
     require_once 'view/displaySnowDetails.php';
 }
 
+function emptyCart()
+{
+    foreach ($_SESSION['cart'] as $snow) {
+        returnSnow($snow['id']);
+    }
+    unset($_SESSION['cart']);
+    $_SESSION['flashmessage'] = "Le panier a été vidé";
+    displaySnows();
+}
+
 function editSnowDetails($snowid){
     $snow = getSnow($snowid);
     require_once 'view/editSnowDetails.php';
