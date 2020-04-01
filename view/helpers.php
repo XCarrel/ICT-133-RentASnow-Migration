@@ -49,7 +49,7 @@ function cartButton()
     if (!isset($_SESSION['cart'])) {
         return "<a class='btn btn-secondary ml-3 disabled'>Panier</a>";
     } else {
-        return "<a href='?viewCart' class='btn btn-secondary ml-3'>Panier</a>";
+        return "<a href='?action=viewCart' class='btn btn-secondary ml-3'>Panier</a>";
     }
 }
 ?>
