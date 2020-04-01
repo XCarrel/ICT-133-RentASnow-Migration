@@ -75,7 +75,7 @@
                                 <td id="connect"><a style="color: #4DB9EE" href="index.php?action=connect">Connexion</a></td>
                             <?php } ?>
 
-
+                            <td><?= cartButton() ?></td>
                         </tr>
                     </table>
                 </div>

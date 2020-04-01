@@ -34,6 +34,9 @@ require_once "helpers.php";
         </tr>
     </table>
     <a href="?action=editSnowDetails&snowid=<?= $snowid ?>" class="btn btn-primary">Modifier</a>
+    <?php if ($snow['available'] == 1) { ?>
+        <a href="?action=putInCart&snowid=<?= $snowid ?>" class="btn btn-success">Mettre dans le panier</a>
+    <?php } ?>
 </div>
 
 <?php

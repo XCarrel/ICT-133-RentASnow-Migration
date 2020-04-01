@@ -41,4 +41,15 @@ function getTextState($state)
     }
 }
 
+/**
+ * This function returns the HTML for the cart button, depending on the cart's content
+ */
+function cartButton()
+{
+    if (!isset($_SESSION['cart'])) {
+        return "<a class='btn btn-secondary ml-3 disabled'>Panier</a>";
+    } else {
+        return "<a href='?viewCart' class='btn btn-secondary ml-3'>Panier</a>";
+    }
+}
 ?>
