@@ -104,6 +104,35 @@ function getSnow($id)
     }
 }
 
+/**
+ * Return all the rents in which the snow is
+ * @param $id
+ * @return mixed|null
+ */
+function getRentsOfSnow($id)
+{
+    require ".const.php";
+    $dbh = getPDO();
+    try {
+        $query = '
+            SELECT firstname, lastname, start_on, nbDays, rents.status
+            FROM snows 
+                INNER JOIN rentsdetails ON snow_id=snows.id 
+                INNER JOIN rents ON rent_id = rents.id 
+                INNER JOIN users ON user_id=users.id
+            WHERE snows.id=:id;';
+        $statement = $dbh->prepare($query);//prepare query
+        $statement->execute(['id' => $id]);//execute query
+        $queryResult = $statement->fetchAll(PDO::FETCH_ASSOC);//prepare result for client
+        $dbh = null;
+        if ($debug) var_dump($queryResult);
+        return $queryResult;
+    } catch (PDOException $e) {
+        print "Error!: " . $e->getMessage() . "<br/>";
+        return null;
+    }
+}
+
 function updateSnow($snowdata)
 {
     if (isset($snowdata['available']))

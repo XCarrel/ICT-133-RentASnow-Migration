@@ -56,6 +56,7 @@ function displaySnowTypeDetails($id){
 
 function displaySnowDetails($snowid){
     $snow = getSnow($snowid);
+    $rents = getRentsOfSnow($snowid);
     require_once 'view/displaySnowDetails.php';
 }
 
