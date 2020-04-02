@@ -12,40 +12,85 @@ function getPDO()
     return $dbh;
 }
 
-function getNews()
+function select($query, $params, $multirecord)
 {
     require ".const.php";
     $dbh = getPDO();
-    try {
-        $query = 'SELECT * FROM news ORDER BY date desc';
+    try
+    {
         $statement = $dbh->prepare($query);//prepare query
-        $statement->execute();//execute query
-        $queryResult = $statement->fetchAll(PDO::FETCH_ASSOC);//prepare result for client
+        $statement->execute($params);//execute query
+        if ($multirecord)
+        {
+            $queryResult = $statement->fetchAll(PDO::FETCH_ASSOC);
+        } else
+        {
+            $queryResult = $statement->fetch(PDO::FETCH_ASSOC);
+        }
         $dbh = null;
         if ($debug) var_dump($queryResult);
         return $queryResult;
-    } catch (PDOException $e) {
+    } catch (PDOException $e)
+    {
         print "Error!: " . $e->getMessage() . "<br/>";
         return null;
     }
 }
 
-function getSnows()
+function selectOne($query, $params)
+{
+    return select($query, $params, false);
+}
+
+function selectMany($query, $params)
+{
+    return select($query, $params, true);
+}
+
+function insert($query, $params)
 {
     require ".const.php";
     $dbh = getPDO();
-    try {
-        $query = 'SELECT * FROM snowtypes ORDER BY brand,model desc';
+    try
+    {
         $statement = $dbh->prepare($query);//prepare query
-        $statement->execute();//execute query
-        $queryResult = $statement->fetchAll(PDO::FETCH_ASSOC);//prepare result for client
-        $dbh = null;
-        if ($debug) var_dump($queryResult);
-        return $queryResult;
-    } catch (PDOException $e) {
+        $statement->execute($params);//execute query
+        return $dbh->lastInsertId();
+        // TODO bugfix: this creates two records!!!!
+    } catch (PDOException $e)
+    {
         print "Error!: " . $e->getMessage() . "<br/>";
+        $_SESSION['flashmessage'] = "Erreur lors de l'enregistrement";
         return null;
     }
+}
+
+function execute($query, $params)
+{
+    require ".const.php";
+    $dbh = getPDO();
+    try
+    {
+        $statement = $dbh->prepare($query);//prepare query
+        $statement->execute($params);//execute query
+        $dbh = null;
+        return true;
+    } catch (PDOException $e)
+    {
+        print "Error!: " . $e->getMessage() . "<br/>";
+        $_SESSION['flashmessage'] = "Erreur lors de l'enregistrement";
+        return null;
+    }
+}
+
+function getNews()
+{
+    return selectMany('SELECT * FROM news ORDER BY date desc', []);
+}
+
+function getSnows()
+{
+    return selectMany('SELECT * FROM snowtypes ORDER BY brand,model desc', []);
 }
 
 /**
@@ -53,55 +98,17 @@ function getSnows()
  */
 function getSnowsOfType($type)
 {
-    require ".const.php";
-    $dbh = getPDO();
-    try {
-        $query = 'SELECT * FROM snows WHERE snowtype_id = :tid AND state IN (1,2,3) ORDER BY length';
-        $statement = $dbh->prepare($query);//prepare query
-        $statement->execute(["tid" => $type]);//execute query
-        $queryResult = $statement->fetchAll(PDO::FETCH_ASSOC);//prepare result for client
-        $dbh = null;
-        if ($debug) var_dump($queryResult);
-        return $queryResult;
-    } catch (PDOException $e) {
-        print "Error!: " . $e->getMessage() . "<br/>";
-        return null;
-    }
+    return selectMany('SELECT * FROM snows WHERE snowtype_id = :tid AND state IN (1,2,3) ORDER BY length', ["tid" => $type]);//execute query
 }
 
 function getSnowType($id)
 {
-    require ".const.php";
-    $dbh = getPDO();
-    try {
-        $query = 'SELECT * FROM snowtypes WHERE id=:id';
-        $statement = $dbh->prepare($query);//prepare query
-        $statement->execute(['id' => $id]);//execute query
-        $queryResult = $statement->fetch(PDO::FETCH_ASSOC);//prepare result for client
-        $dbh = null;
-        if ($debug) var_dump($queryResult);
-        return $queryResult;
-    } catch (PDOException $e) {
-        print "Error!: " . $e->getMessage() . "<br/>";
-        return null;
-    }
+    return selectOne('SELECT * FROM snowtypes WHERE id=:id', ['id' => $id]);
 }
+
 function getSnow($id)
 {
-    require ".const.php";
-    $dbh = getPDO();
-    try {
-        $query = 'SELECT *, snows.id as snowid FROM snows INNER JOIN snowtypes ON snowtype_id=snowtypes.id WHERE snows.id=:id';
-        $statement = $dbh->prepare($query);//prepare query
-        $statement->execute(['id' => $id]);//execute query
-        $queryResult = $statement->fetch(PDO::FETCH_ASSOC);//prepare result for client
-        $dbh = null;
-        if ($debug) var_dump($queryResult);
-        return $queryResult;
-    } catch (PDOException $e) {
-        print "Error!: " . $e->getMessage() . "<br/>";
-        return null;
-    }
+    return selectOne('SELECT *, snows.id as snowid FROM snows INNER JOIN snowtypes ON snowtype_id=snowtypes.id WHERE snows.id=:id', ['id' => $id]);
 }
 
 /**
@@ -111,26 +118,14 @@ function getSnow($id)
  */
 function getRentsOfSnow($id)
 {
-    require ".const.php";
-    $dbh = getPDO();
-    try {
-        $query = '
+    return selectMany('
             SELECT firstname, lastname, start_on, nbDays, rents.status
             FROM snows 
                 INNER JOIN rentsdetails ON snow_id=snows.id 
                 INNER JOIN rents ON rent_id = rents.id 
                 INNER JOIN users ON user_id=users.id
-            WHERE snows.id=:id;';
-        $statement = $dbh->prepare($query);//prepare query
-        $statement->execute(['id' => $id]);//execute query
-        $queryResult = $statement->fetchAll(PDO::FETCH_ASSOC);//prepare result for client
-        $dbh = null;
-        if ($debug) var_dump($queryResult);
-        return $queryResult;
-    } catch (PDOException $e) {
-        print "Error!: " . $e->getMessage() . "<br/>";
-        return null;
-    }
+            WHERE snows.id=:id;',
+        ['id' => $id]);
 }
 
 function updateSnow($snowdata)
@@ -138,25 +133,12 @@ function updateSnow($snowdata)
     if (isset($snowdata['available']))
     {
         $snowdata['available'] = 1; // replace the value 'on' from the html form by a 1
-    }
-    else
+    } else
     {
         $snowdata['available'] = 0; // put a 0 if the checkbox was not checked
     }
-    require ".const.php";
-    $dbh = getPDO();
-    try {
-        $query = 'UPDATE snows SET code = :code, length = :length, state = :state, available = :available WHERE id = :snowid';
-        $statement = $dbh->prepare($query);//prepare query
-        $statement->execute($snowdata);//execute query
-        $_SESSION['flashmessage'] = 'Modifications enregistrées';
-        $dbh = null;
-        return true;
-    } catch (PDOException $e) {
-        print "Error!: " . $e->getMessage() . "<br/>";
-        $_SESSION['flashmessage'] = "Erreur lors de l'enregistrement";
-        return null;
-    }
+    execute('UPDATE snows SET code = :code, length = :length, state = :state, available = :available WHERE id = :snowid', $snowdata);//execute query
+    $_SESSION['flashmessage'] = 'Modifications enregistrées';
 }
 
 /**
@@ -166,19 +148,7 @@ function updateSnow($snowdata)
  */
 function withdraw($snowid)
 {
-    require ".const.php";
-    $dbh = getPDO();
-    try {
-        $query = 'UPDATE snows SET available = false WHERE id = :snowid';
-        $statement = $dbh->prepare($query);//prepare query
-        $statement->execute(['snowid' => $snowid]);//execute query
-        $dbh = null;
-        return true;
-    } catch (PDOException $e) {
-        print "Error!: " . $e->getMessage() . "<br/>";
-        $_SESSION['flashmessage'] = "Erreur lors de l'enregistrement";
-        return null;
-    }
+    execute('UPDATE snows SET available = 0 WHERE id = :snowid',['snowid' => $snowid]);//execute query
 }
 
 /**
@@ -188,19 +158,7 @@ function withdraw($snowid)
  */
 function returnSnow($snowid)
 {
-    require ".const.php";
-    $dbh = getPDO();
-    try {
-        $query = 'UPDATE snows SET available = true WHERE id = :snowid';
-        $statement = $dbh->prepare($query);//prepare query
-        $statement->execute(['snowid' => $snowid]);//execute query
-        $dbh = null;
-        return true;
-    } catch (PDOException $e) {
-        print "Error!: " . $e->getMessage() . "<br/>";
-        $_SESSION['flashmessage'] = "Erreur lors de l'enregistrement";
-        return null;
-    }
+    execute('UPDATE snows SET available = 1 WHERE id = :snowid',['snowid' => $snowid]);//execute query
 }
 
 /**
@@ -208,60 +166,17 @@ function returnSnow($snowid)
  */
 function createRent($userid)
 {
-    require ".const.php";
-    $dbh = getPDO();
-    try {
-        $query = "INSERT INTO rents (status, start_on, user_id) VALUES (:status, :date, :userid);";
-        $statement = $dbh->prepare($query);//prepare query
-        $statement->execute(["status" => 'open', "date" => '2020-02-02', "userid" => $userid]);//execute query
-        return $dbh->lastInsertId() ;
-        // TODO bugfix: this creates two records!!!!
-    } catch (PDOException $e) {
-        print "Error!: " . $e->getMessage() . "<br/>";
-        $_SESSION['flashmessage'] = "Erreur lors de l'enregistrement";
-        return null;
-    }
+    return insert("INSERT INTO rents (status, start_on, user_id) VALUES (:status, :date, :userid);",["status" => 'open', "date" => '2020-02-02', "userid" => $userid]);//execute query
 }
 
-function addSnowToRent($snow,$rent)
+function addSnowToRent($snow, $rent)
 {
-    require ".const.php";
-    $dbh = getPDO();
-    try {
-        $query = "INSERT INTO rentsdetails (snow_id, rent_id, nbDays, status) VALUES (:snow_id, :rent_id, :nbDays, :status);";
-        $statement = $dbh->prepare($query);//prepare query
-        $statement->execute(['snow_id' => $snow['snowid'], 'rent_id' => $rent, 'nbDays' => 30, 'status' => 'open']);//execute query
-        return $dbh->lastInsertId() ;
-    } catch (PDOException $e) {
-        print "Error!: " . $e->getMessage() . "<br/>";
-        $_SESSION['flashmessage'] = "Erreur lors de l'enregistrement";
-        return null;
-    }
-}
-
-function getUsers()
-{
-    return json_decode(file_get_contents("model/dataStorage/users.json"),true);
-}
-function putUsers($tab)
-{
-    file_put_contents('model/dataStorage/users.json', json_encode($tab));
+    return insert("INSERT INTO rentsdetails (snow_id, rent_id, nbDays, status) VALUES (:snow_id, :rent_id, :nbDays, :status);",['snow_id' => $snow['snowid'], 'rent_id' => $rent, 'nbDays' => 30, 'status' => 'open']);//execute query
 }
 
 function getUserByEmail($email)
 {
-    require ".const.php";
-    $dbh = getPDO();
-    try {
-        $query = 'SELECT * FROM users WHERE email=:email';
-        $statement = $dbh->prepare($query);//prepare query
-        $statement->execute(['email' => $email]);//execute query
-        $queryResult = $statement->fetch(PDO::FETCH_ASSOC);//prepare result for client
-        $dbh = null;
-        return $queryResult;
-    } catch (PDOException $e) {
-        print "Error!: " . $e->getMessage() . "<br/>";
-        return null;
-    }
+    return selectOne('SELECT * FROM users WHERE email=:email',['email' => $email]);//execute query
 }
+
 ?>
